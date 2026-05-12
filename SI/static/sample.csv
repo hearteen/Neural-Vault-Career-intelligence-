@@ -1,0 +1,5 @@
+name,email,roll_no,department,batch,attendance,m1,m2,m3,gpa
+Arun Kumar,arun.k@example.com,a24mcs01,CSE,2024,92,85,88,82,8.50
+Priya Dharshini,priya.d@example.com,a24mcs02,CSE,2024,95,95,92,89,9.20
+Sanjay Ram,sanjay.r@example.com,a24mcs03,ECE,2024,88,75,80,79,7.80
+Meera Reddy,meera.r@example.com,a24mcs04,ECE,2024,91,88,90,89,8.90

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Academic Trajectory | Neural Path</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <style>
+        :root { 
+            --bg-obsidian: #050810; 
+            --accent-cyan: #00f2ff; 
+            --glass-card: rgba(15, 23, 42, 0.6);
+            --border-glow: rgba(0, 242, 255, 0.15);
+        }
+
+        body { 
+            background-color: var(--bg-obsidian) !important; 
+            color: #ffffff; 
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Ambient Background Glow */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 80% 20%, rgba(0, 242, 255, 0.05) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .main-content { margin-left: 280px; padding: 3rem; }
+
+        .chart-container {
+            background: var(--glass-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-glow);
+            border-radius: 30px;
+            padding: 2.5rem;
+            margin-top: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Status Cards Polished */
+        .info-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .info-card:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 242, 255, 0.02);
+        }
+
+        .text-cyan { 
+            color: var(--accent-cyan); 
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+        }
+
+        .letter-spacing-2 { letter-spacing: 2px; }
+
+        /* Customizing ApexCharts Tooltip and Labels */
+        .apexcharts-tooltip {
+            background: #0f172a !important;
+            border: 1px solid var(--accent-cyan) !important;
+            color: white !important;
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <main class="main-content">
+        <div class="animate__animated animate__fadeInDown">
+            <h1 class="fw-bold display-6 text-white">Performance <span class="text-cyan">Trajectory</span></h1>
+            <p class="text-white lead" style="font-size: 1rem;">Neural mapping of your academic GPA progression.</p>
+        </div>
+
+        
+        <div class="chart-container animate__animated animate__zoomIn">
+            <div id="mainTrajectoryChart"></div>
+        </div>
+
+        <div class="row mt-4 g-4 animate__animated animate__fadeInUp animate__delay-1s">
+            <div class="col-md-6">
+                <div class="info-card d-flex align-items-center">
+                    <div class="rounded-circle bg-success bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-chart-line text-success"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted text-uppercase letter-spacing-2 fw-bold" style="font-size: 0.65rem;">Current Trend</small>
+                        <h4 class="mb-0 fw-bold text-success">Positive Growth</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="info-card d-flex align-items-center">
+                    <div class="rounded-circle bg-info bg-opacity-10 p-3 me-3">
+                        <i class="fas fa-sync-alt text-cyan"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted text-uppercase letter-spacing-2 fw-bold" style="font-size: 0.65rem;">Data Integrity</small>
+                        <p class="small mb-0 text-white-50">Synchronized with Marks Register Database</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        var semLabels = {{ semesters | safe }};
+        var gpaValues = {{ gpas | safe }};
+
+        var options = {
+            series: [{
+                name: 'GPA',
+                data: gpaValues
+            }],
+            chart: {
+                type: 'area',
+                height: 400,
+                toolbar: { show: false },
+                zoom: { enabled: false },
+                fontFamily: 'Inter, sans-serif',
+                foreColor: '#64748b'
+            },
+            colors: ['#00f2ff'],
+            stroke: {
+                curve: 'smooth',
+                width: 3,
+                lineCap: 'round'
+            },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    shadeIntensity: 1,
+                    opacityFrom: 0.4,
+                    opacityTo: 0.05,
+                    stops: [0, 90, 100]
+                }
+            },
+            markers: {
+                size: 5,
+                colors: ['#050810'],
+                strokeColors: '#00f2ff',
+                strokeWidth: 2,
+                hover: { size: 7 }
+            },
+            grid: {
+                borderColor: 'rgba(255, 255, 255, 0.05)',
+                strokeDashArray: 4,
+                xaxis: { lines: { show: true } }
+            },
+            dataLabels: {
+                enabled: true,
+                style: {
+                    fontSize: '12px',
+                    colors: ['#00f2ff']
+                },
+                background: { enabled: false }
+            },
+            xaxis: {
+                categories: semLabels,
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                labels: { style: { fontWeight: 600 } }
+            },
+            yaxis: {
+                min: 0,
+                max: 10,
+                tickAmount: 5,
+                labels: {
+                    style: { fontWeight: 600 },
+                    formatter: (val) => val.toFixed(1)
+                }
+            },
+            tooltip: {
+                theme: 'dark',
+                x: { show: true },
+                y: { title: { formatter: () => 'GPA Score: ' } }
+            }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#mainTrajectoryChart"), options);
+        chart.render();
+    </script>
+</body>
+</html>

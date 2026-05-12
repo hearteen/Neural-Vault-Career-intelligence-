@@ -1,0 +1,40 @@
+@app.route('/student_profile/<roll_no>')
+def student_profile(roll_no):
+    if 'user_id' not in session:
+        return redirect(url_for('index'))
+
+    try:
+        db = get_db_connection()
+        cursor = db.cursor(dictionary=True)
+
+        # 1. Fetch Student Basic Info
+        cursor.execute("SELECT * FROM students WHERE roll_no = %s", (roll_no,))
+        student = cursor.fetchone()
+
+        # 2. Fetch & Calculate Attendance Percentage from attendance_log table
+        # Formula: (Total Presents / Total Days) * 100
+        cursor.execute("""
+            SELECT 
+                COUNT(*) as total_days,
+                COUNT(CASE WHEN status='Present' THEN 1 END) as present_days
+            FROM attendance_db.attendance_log 
+            WHERE student_id = %s
+        """, (roll_no,))
+        
+        att_stats = cursor.fetchone()
+        
+        if att_stats['total_days'] > 0:
+            calc_attendance = round((att_stats['present_days'] / att_stats['total_days']) * 100, 1)
+        else:
+            calc_attendance = 0
+
+        cursor.close()
+        db.close()
+
+        # 3. Render Profile with Calculated Attendance
+        return render_template('student_profile.html', 
+                               student=student, 
+                               attendance=calc_attendance)
+
+    except Exception as e:
+        return f"Error fetching profile: {e}"

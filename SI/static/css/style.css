@@ -1,0 +1,352 @@
+:root {
+    --bg-dark: #080c14; /* Darkened for better contrast */
+    --card-bg: rgba(30, 41, 59, 0.8); /* Increased opacity for text legibility */
+    --accent-cyan: #06b6d4;
+    --text-white: #ffffff;
+    --text-muted: #cbd5e1; /* Brightened muted text for visibility */
+}
+
+/* 1. Layout Fix: Flexbox body to push footer down */
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: radial-gradient(circle at center, #1e293b 0%, #080c14 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-white);
+}
+
+/* 2. Login Page Centering (Only applies when not in dashboard) */
+.login-body {
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* 3. Premium Header */
+.main-header {
+    position: fixed;
+    top: 0; left: 0; width: 100%;
+    height: 70px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(15px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 5%;
+    border-bottom: 1px solid rgba(6, 182, 212, 0.3);
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+.header-logo span {
+    font-weight: 600;
+    color: var(--text-white);
+    letter-spacing: 2px;
+}
+
+.cyan-text { color: var(--accent-cyan); margin-right: 10px; }
+
+/* 4. Dashboard Wrapper */
+.dashboard-wrapper {
+    flex: 1 0 auto; /* This pushes the footer to the bottom */
+    margin-top: 90px;
+    padding-bottom: 40px;
+}
+
+/* 5. Glass Cards & Modules */
+.glass-card-premium, .module-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    color: var(--text-white);
+}
+
+.module-card:hover, .glass-card-premium:hover {
+    transform: translateY(-8px);
+    border-color: var(--accent-cyan);
+    box-shadow: 0 10px 30px rgba(6, 182, 212, 0.3);
+}
+
+/* Visibility for labels and stats */
+.card-title, h4, h5 { color: var(--text-white) !important; margin-top: 10px; }
+.stat-text, .card-text { color: var(--text-muted) !important; font-size: 0.9rem; }
+
+/* 6. Fix: Footer at the Bottom */
+.main-footer {
+    flex-shrink: 0; /* Prevents footer from shrinking */
+    background: #0a0f1d;
+    padding: 25px 5%;
+    border-top: 1px solid rgba(6, 182, 212, 0.2);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* 7. Utilities & Animations */
+.pulse-animation { animation: pulse-cyan 2s infinite; }
+@keyframes pulse-cyan {
+    0% { filter: drop-shadow(0 0 2px #06b6d4); }
+    50% { filter: drop-shadow(0 0 10px #06b6d4); }
+    100% { filter: drop-shadow(0 0 2px #06b6d4); }
+}
+
+.status-indicator {
+    height: 8px; width: 8px;
+    background: #2ed573;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 8px #2ed573;
+    margin-right: 8px;
+}
+
+.bg-dark-soft {
+    background: rgba(15, 23, 42, 0.6);
+    border-radius: 12px;
+}
+
+.letter-spacing-2 {
+    letter-spacing: 2px;
+}
+
+.btn-cyan-outline {
+    border: 2px solid var(--accent-cyan);
+    color: var(--accent-cyan);
+    transition: 0.3s ease;
+    background: transparent;
+}
+
+.btn-cyan-outline:hover {
+    background: var(--accent-cyan);
+    color: #0f172a;
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+}
+
+/* Ensure the wrapper centers content correctly */
+.dashboard-wrapper {
+    min-height: calc(100vh - 140px); /* Adjusting for header/footer */
+}
+.circular-progress {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(closest-side, #0f172a 79%, transparent 80% 100%),
+                conic-gradient(#06b6d4 calc(var(--value) * 1%), rgba(6, 182, 212, 0.1) 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    transition: all 0.4s ease-in-out;
+}
+
+.circular-progress:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+}
+
+
+/* Glass Navigation Styles */
+.glass-nav {
+    background: rgba(11, 14, 20, 0.8) !important;
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-bottom: 1px solid rgba(0, 242, 255, 0.1);
+    padding: 15px 0;
+}
+
+.text-cyan {
+    color: #00f2ff !important;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+}
+
+.text-light-muted {
+    color: #cbd5e1 !important; /* Lighter than standard muted */
+}
+
+.glow-icon {
+    color: #00f2ff;
+    filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.8));
+    transition: all 0.3s ease;
+}
+.glass-card-premium:hover .glow-icon {
+    filter: drop-shadow(0 0 15px rgba(0, 242, 255, 1));
+    transform: scale(1.1);
+}
+
+.glass-card-premium {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    backdrop-filter: blur(12px);
+}
+
+.nav-link {
+    color: #888 !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.active-link {
+    color: var(--cyan-primary) !important;
+    text-shadow: 0 0 10px var(--cyan-glow);
+}
+
+.hover-glow:hover {
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+/* Online Status Pill */
+.user-status-pill {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 5px 15px;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.online-dot {
+    width: 8px;
+    height: 8px;
+    background: #00ff88;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 10px #00ff88;
+    animation: pulseStatus 2s infinite;
+}
+
+
+/* Custom Result Table */
+.custom-glass-table {
+    background: transparent !important;
+    border-radius: 15px;
+    overflow: hidden;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+}
+
+.custom-glass-table thead th {
+    background: rgba(0, 242, 255, 0.05);
+    border: none;
+    color: #888;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    padding: 15px;
+}
+
+.custom-glass-table tbody tr {
+    background: rgba(255, 255, 255, 0.02);
+    transition: all 0.3s ease;
+}
+
+.custom-glass-table tbody tr:hover {
+    background: rgba(0, 242, 255, 0.05) !important;
+    transform: scale(1.01);
+}
+
+.custom-glass-table td {
+    padding: 20px 15px;
+    border: none;
+    vertical-align: middle;
+}
+
+/* Badges & Pills */
+.bg-soft-success { background: rgba(0, 255, 136, 0.1); color: #00ff88; }
+.bg-soft-warning { background: rgba(255, 193, 7, 0.1); color: #ffc107; }
+
+.custom-pills .nav-link {
+    background: rgba(255, 255, 255, 0.05);
+    color: #888;
+    margin-right: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+}
+
+.custom-pills .nav-link.active {
+    background: var(--cyan-primary) !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px var(--cyan-glow);
+}
+
+/* Roadmap Styling */
+.roadmap-wrapper {
+    position: relative;
+    padding-left: 50px;
+}
+
+.roadmap-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 0;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.roadmap-step {
+    position: relative;
+    margin-bottom: 40px;
+    opacity: 0.5;
+    transition: all 0.5s ease;
+}
+
+.roadmap-step.active, .roadmap-step.completed {
+    opacity: 1;
+}
+
+.step-icon {
+    position: absolute;
+    left: -50px;
+    width: 40px;
+    height: 40px;
+    background: var(--obsidian);
+    border: 2px solid var(--glass-border);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    z-index: 2;
+}
+
+.roadmap-step.active .step-icon {
+    border-color: var(--cyan-primary);
+    color: var(--cyan-primary);
+    box-shadow: 0 0 15px var(--cyan-glow);
+    animation: pulse 2s infinite;
+}
+
+.roadmap-step.completed .step-icon {
+    background: var(--cyan-primary);
+    color: #000;
+    border-color: var(--cyan-primary);
+}
+
+.step-content h5 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+@keyframes pulseStatus {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+/* 8. Mobile Responsiveness */
+@media (max-width: 768px) {
+    .header-nav { display: none; } /* Use hamburger for mobile if needed */
+    .footer-content { justify-content: center; text-align: center; }
+}

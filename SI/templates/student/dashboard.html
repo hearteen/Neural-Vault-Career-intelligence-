@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Intelligence | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="bg-obsidian text-white">
+    {% include 'header.html' %}
+
+    <nav class="navbar navbar-expand-lg fixed-top glass-nav animate__animated animate__fadeInDown">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <div class="logo-wrapper-small me-2">
+                    <i class="bi bi-cpu-fill text-cyan"></i>
+                </div>
+                <span class="fw-bold tracking-wider">INDEX <span class="text-cyan">ERP</span></span>
+            </a>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item mx-2"><a class="nav-link active-link" href="#">Dashboard</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link hover-glow" href="#">Academic Hub</a></li>
+                    <li class="nav-item mx-2"><a class="nav-link hover-glow" href="#">AI Career</a></li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <div class="user-status-pill me-3">
+                        <span class="online-dot"></span>
+                        <small class="ms-2">System Active</small>
+                    </div>
+                    <a href="/logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-wrapper container-fluid px-4 mt-5 pt-5">
+        
+        <div class="row align-items-center mb-5 animate__animated animate__fadeInLeft">
+            <div class="col-md-8">
+                <h1 class="display-6 fw-bold">Neural <span class="text-cyan">Dashboard</span></h1>
+                <p class="text-muted">Welcome back, <strong>{{ student.name }}</strong>. AI has refreshed your analytics.</p>
+            </div>
+            <div class="col-md-4 text-md-end d-none d-md-block">
+                <div class="date-chip">
+                    <i class="far fa-calendar-alt text-cyan me-2"></i> February 2, 2026
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
+                <div class="glass-card-premium">
+                    <div class="card-icon-box text-cyan"><i class="fas fa-fingerprint"></i></div>
+                    <h4>Attendance</h4>
+                    <div class="stat-value">{{ attendance_percent }}%</div>
+                    <div class="progress mt-3 bg-dark" style="height: 6px;">
+                        <div class="progress-bar bg-cyan shadow-cyan" style="width: {{ attendance_percent }}%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
+                <div class="glass-card-premium active-glow">
+                    <div class="card-icon-box text-warning"><i class="fas fa-brain"></i></div>
+                    <h4>AI Prediction</h4>
+                    <div class="stat-value text-warning">{{ predicted_gpa }} <small>GPA</small></div>
+                    <div class="prediction-tag mt-2">94% Accuracy</div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.3s;">
+                <div class="glass-card-premium">
+                    <div class="card-icon-box text-info"><i class="fas fa-chart-line"></i></div>
+                    <h4>Current GPA</h4>
+                    <div class="stat-value text-white">{{ current_gpa }}</div>
+                    <p class="small text-success mt-2"><i class="fas fa-caret-up"></i> Top 10% of Batch</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.4s;">
+                <div class="glass-card-premium">
+                    <div class="card-icon-box text-success"><i class="fas fa-rocket"></i></div>
+                    <h4>Career Path</h4>
+                    <div class="stat-text text-white">Suggested: <br><strong>{{ career_suggestion }}</strong></div>
+                    <button class="btn btn-cyan btn-sm mt-3 w-100">View Roadmap</button>
+                </div>
+            </div>
+
+        </div> <div class="row mt-5 animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <div class="col-12">
+                <div class="glass-card-premium">
+                    <h4 class="mb-4">Recent Performance Matrix</h4>
+                    <div class="text-center py-5 text-muted">
+                        <i class="fas fa-table fs-1 mb-3"></i>
+                        <p>Semester-wise Detailed Marks Table Loading...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+            <div class="col-12">
+                <div class="glass-card-premium p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h4 class="fw-bold"><i class="bi bi-journal-check text-cyan me-2"></i>Academic <span class="text-cyan">Performance Hub</span></h4>
+                        <button class="btn btn-cyan-outline btn-sm"><i class="fas fa-download me-2"></i>PDF Transcript</button>
+                    </div>
+
+                    <ul class="nav nav-pills custom-pills mb-4" id="pills-tab" role="tablist">
+                        <li class="nav-item"><button class="nav-link active" data-bs-toggle="pill">Sem 1</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill">Sem 2</button></li>
+                        <li class="nav-item"><button class="nav-link" data-bs-toggle="pill">Sem 3</button></li>
+                    </ul>
+
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover custom-glass-table">
+                            <thead>
+                                <tr>
+                                    <th>Subject Code</th>
+                                    <th>Subject Name</th>
+                                    <th>Credits</th>
+                                    <th>Grade</th>
+                                    <th>AI Insight</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CS801</td>
+                                    <td>Machine Learning</td>
+                                    <td>4</td>
+                                    <td class="text-cyan fw-bold">O</td>
+                                    <td><span class="badge bg-soft-success">Excellent Grip</span></td>
+                                </tr>
+                                <tr>
+                                    <td>CS802</td>
+                                    <td>Cloud Computing</td>
+                                    <td>3</td>
+                                    <td class="text-warning fw-bold">B+</td>
+                                    <td><span class="badge bg-soft-warning">Needs Focus</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-lg-8 animate__animated animate__fadeInUp" style="animation-delay: 0.7s;">
+                <div class="glass-card-premium h-100">
+                    <h4 class="mb-4"><i class="fas fa-chart-area text-cyan me-2"></i>Performance <span class="text-cyan">Trajectory</span></h4>
+                    <div id="gpaChart" style="min-height: 300px;"></div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 animate__animated animate__fadeInUp" style="animation-delay: 0.8s;">
+                <div class="glass-card-premium h-100">
+                    <h4 class="mb-4"><i class="fas fa-robot text-cyan me-2"></i>AI <span class="text-cyan">Signals</span></h4>
+                    <div class="signal-item mb-4">
+                        <small class="text-muted d-block">Predicted Semester End GPA</small>
+                        <h2 class="text-warning count-up">8.85</h2>
+                    </div>
+                    <div class="alert bg-soft-info border-0">
+                        <i class="fas fa-lightbulb me-2 text-info"></i>
+                        <small>Increasing your attendance by 5% could boost your prediction to 9.0!</small>
+                    </div>
+                    <div class="mini-glow-tracker mt-4">
+                        <canvas id="miniGlow"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5 animate__animated animate__fadeInUp" style="animation-delay: 0.9s;">
+            <div class="col-12">
+                <div class="glass-card-premium p-4 roadmap-container">
+                    <h4 class="mb-5"><i class="fas fa-map-signs text-cyan me-2"></i>AI Career <span class="text-cyan">Roadmap: {{ career_suggestion }}</span></h4>
+                    
+                    <div class="roadmap-wrapper">
+                        <div class="roadmap-step completed">
+                            <div class="step-icon"><i class="fas fa-user-graduate"></i></div>
+                            <div class="step-content">
+                                <h5>Current Phase</h5>
+                                <p class="small text-muted">Academic Foundation & GPA Maintenance</p>
+                            </div>
+                        </div>
+
+                        <div class="roadmap-step active">
+                            <div class="step-icon"><i class="fas fa-code"></i></div>
+                            <div class="step-content">
+                                <h5>Skill Focus: {{ career_suggestion }} Core</h5>
+                                <p class="small text-white">Recommended: Python, SQL, and ML Basics</p>
+                            </div>
+                        </div>
+
+                        <div class="roadmap-step">
+                            <div class="step-icon"><i class="fas fa-project-diagram"></i></div>
+                            <div class="step-content">
+                                <h5>Portfolio Building</h5>
+                                <p class="small text-muted">Complete 2 Capstone Projects in {{ career_suggestion }}</p>
+                            </div>
+                        </div>
+
+                        <div class="roadmap-step target">
+                            <div class="step-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="step-content">
+                                <h5>Target Role</h5>
+                                <p class="small text-muted">Entry-level {{ career_suggestion }} Specialist</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    var options = {
+        series: [{
+            name: 'Actual GPA',
+            data: [7.5, 8.2, 8.0, 8.5] // Mock data
+        }, {
+            name: 'AI Predicted Path',
+            data: [7.5, 8.2, 8.4, 8.8] // ML Prediction
+        }],
+        chart: {
+            type: 'area',
+            height: 300,
+            toolbar: { show: false },
+            background: 'transparent',
+            foreColor: '#888'
+        },
+        colors: ['#00f2ff', '#ffc107'],
+        stroke: { curve: 'smooth', width: 3 },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.3,
+                opacityTo: 0,
+                stops: [0, 90, 100]
+            }
+        },
+        grid: { borderColor: 'rgba(255,255,255,0.05)' },
+        xaxis: { categories: ['Sem 1', 'Sem 2', 'Sem 3', 'Sem 4 (Current)'] }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#gpaChart"), options);
+    chart.render();
+
+
+    document.querySelectorAll('.count-up').forEach(el => {
+    let start = 0;
+    let end = parseFloat(el.innerText);
+    let duration = 2000; 
+    let startTime = null;
+
+    function animate(currentTime) {
+        if (!startTime) startTime = currentTime;
+        let progress = currentTime - startTime;
+        let current = Math.min(start + (end - start) * (progress / duration), end);
+        el.innerText = current.toFixed(2);
+        if (progress < duration) requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+});
+
+document.addEventListener('mousemove', (e) => {
+    const glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    glow.style.left = e.pageX + 'px';
+    glow.style.top = e.pageY + 'px';
+    document.body.appendChild(glow);
+
+    setTimeout(() => {
+        glow.remove();
+    }, 1000);
+});
+</script>
+</body>
+</html>

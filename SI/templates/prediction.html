@@ -1,0 +1,62 @@
+{% include 'header.html' %}
+
+<div class="dashboard-wrapper container mt-5 pt-5 d-flex align-items-center justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-7 col-lg-5">
+            <div id="predictionCard" class="glass-card-premium p-5 text-center animate__animated animate__zoomIn">
+                
+                <div class="card-icon-box mb-4">
+                    <i id="resultIcon" class="fas fa-brain fa-4x pulse-animation"></i>
+                </div>
+
+                <h2 class="text-cyan fw-bold mb-3">AI Intelligence Report</h2>
+                <div class="divider mb-4" style="height: 2px; background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);"></div>
+                
+                <div class="result-display my-4 animate__animated animate__fadeInUp animate__delay-1s">
+                    <p class="text-muted text-uppercase small letter-spacing-2 mb-1">Status Prediction</p>
+                    <h1 id="statusText" class="display-5 fw-bold text-white">{{ result }}</h1>
+                </div>
+
+                <div class="alert bg-dark-soft border-info-subtle text-start p-3 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="d-flex align-items-center mb-2">
+                        <i class="fas fa-microchip text-cyan me-2"></i>
+                        <span class="small fw-bold">Neural Engine Analysis</span>
+                    </div>
+                    <p class="small text-muted mb-0">
+                        Random Forest Classifier verified attendance consistency and mark trends with 94.2% accuracy.
+                    </p>
+                </div>
+
+                <div class="mt-4 animate__animated animate__fadeInUp animate__delay-2s">
+                    <a href="/dashboard" class="btn btn-cyan-outline btn-lg w-100 rounded-pill shadow-sm">
+                        <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const result = "{{ result }}".toLowerCase();
+    const card = document.getElementById('predictionCard');
+    const icon = document.getElementById('resultIcon');
+    const statusText = document.getElementById('statusText');
+
+    // Dynamic UI based on Prediction Result
+    if (result.includes('good') || result.includes('high') || result.includes('potential')) {
+        card.style.boxShadow = "0 0 30px rgba(6, 182, 212, 0.3)";
+        icon.style.color = "var(--accent-cyan)";
+        statusText.classList.add('text-cyan');
+    } else {
+        card.style.boxShadow = "0 0 30px rgba(255, 71, 87, 0.3)";
+        card.style.borderColor = "rgba(255, 71, 87, 0.4)";
+        icon.style.color = "#ff4757";
+        icon.classList.replace('text-warning', 'text-danger');
+        statusText.style.color = "#ff4757";
+    }
+});
+</script>

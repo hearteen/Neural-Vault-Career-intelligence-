@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neural Insight | Career Path</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-obsidian: #050810; /* Darker for better contrast */
+            --accent-cyan: #00f2ff;
+            --text-muted: #94a3b8;
+            --glass-card: rgba(15, 23, 42, 0.6);
+            --neon-glow: 0 0 20px rgba(0, 242, 255, 0.3);
+        }
+
+        body { 
+            background-color: var(--bg-obsidian) !important; 
+            color: #ffffff; 
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle Background Atmosphere */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, rgba(0, 242, 255, 0.12) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .dashboard-wrapper { padding-top: 100px; padding-bottom: 50px; }
+
+        /* Main AI Card Polished */
+        .ai-career-card {
+            background: var(--glass-card);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(0, 242, 255, 0.15);
+            border-radius: 40px;
+            padding: 60px 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        /* Robot Icon Styling */
+        .robot-icon {
+            filter: drop-shadow(0 0 15px var(--accent-cyan));
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-15px) scale(1.05); }
+        }
+
+        /* Prediction Text - High Contrast */
+        .prediction-box {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 850;
+            color: #ffffff; /* White for better readability */
+            letter-spacing: -1px;
+            margin: 25px 0;
+            background: linear-gradient(to bottom, #fff, var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            drop-shadow: var(--neon-glow);
+        }
+
+        /* Insight Box Styling */
+        .insight-box {
+            background: rgba(0, 0, 0, 0.25);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 25px;
+            border-radius: 20px;
+            margin: 30px auto;
+            max-width: 800px;
+        }
+
+        .text-light-muted { color: #cbd5e1; font-weight: 400; }
+
+        /* Skill Badges - Clear Contrast */
+        .skill-badge {
+            background: rgba(0, 242, 255, 0.08);
+            border: 1px solid rgba(0, 242, 255, 0.3);
+            color: var(--accent-cyan);
+            padding: 10px 20px;
+            border-radius: 12px;
+            margin: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+        }
+
+        .skill-badge:hover {
+            background: var(--accent-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-cyan);
+            transform: translateY(-3px);
+        }
+
+        /* Buttons */
+        .btn-cyan {
+            background: var(--accent-cyan);
+            color: #000;
+            border: none;
+            box-shadow: var(--neon-glow);
+            transition: 0.4s;
+        }
+
+        .btn-cyan:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.5);
+        }
+
+        .btn-outline-light { border-color: rgba(255,255,255,0.1); }
+        .btn-outline-light:hover { background: rgba(255,255,255,0.05); border-color: #fff; }
+
+        .letter-spacing-2 { letter-spacing: 2.5px; }
+    </style>
+</head>
+<body>
+
+    {% include 'header.html' %}
+
+    <div class="container dashboard-wrapper">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-10">
+                
+                <div class="animate__animated animate__fadeInDown">
+                    <h1 class="fw-bold display-5 text-white mb-2">Neural <span style="color: var(--accent-cyan);">Career Path</span></h1>
+                    <p class="text-white lead mb-5" style="font-size: 1.1rem; opacity: 0.8;">Predictive AI analysis based on your academic DNA.</p>
+                </div>
+
+                <div class="ai-career-card animate__animated animate__zoomIn">
+                    
+                    <div class="mb-4">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" width="100" class="robot-icon" alt="Neural AI">
+                    </div>
+
+                    <h6 class="text-uppercase letter-spacing-2 text-white fw-bold mb-2 " style="font-size: 0.7rem; opacity: 0.7;">System Analysis Result</h6>
+                    
+                    <div class="prediction-box animate__animated animate__pulse animate__infinite">
+                        {{ career_result if career_result else "Full-Stack Web Developer" }}
+                    </div>
+
+                    <div class="row justify-content-center mt-4">
+                        <div class="col-md-10 col-lg-9">
+                            <div class="insight-box animate__animated animate__fadeInUp animate__delay-1s text-start">
+                                <p class="mb-0 text-light-muted" style="font-size: 1rem; line-height: 1.8;">
+                                    <i class="fas fa-quote-left me-3 text-cyan opacity-50"></i>
+                                    Based on your exceptional performance in <span class="text-white fw-bold">{{ strengths if strengths else "Internet Programming and Database Systems" }}</span>, 
+                                    our Neural Engine identifies a <span class="text-cyan fw-bold">94.2%</span> compatibility with modern system architecture roles.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-5 animate__animated animate__fadeInUp animate__delay-2s">
+                        <p class="text-white-50 small mb-4 fw-bold letter-spacing-2">CORE COMPETENCIES DETECTED</p>
+                        <div class="d-flex flex-wrap justify-content-center">
+                            {% if skills %}
+                                {% for skill in skills %}
+                                    <span class="skill-badge">{{ skill }}</span>
+                                {% endfor %}
+                            {% else %}
+                                <span class="skill-badge"><i class="fas fa-brain me-2"></i> Problem Solving</span>
+                                <span class="skill-badge"><i class="fas fa-code me-2"></i> Logic Building</span>
+                                <span class="skill-badge"><i class="fas fa-layer-group me-2"></i> System Design</span>
+                                <span class="skill-badge"><i class="fas fa-terminal me-2"></i> Full-Stack Dev</span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="mt-5 pt-4 animate__animated animate__fadeInUp animate__delay-3s">
+                        <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                            <a href="/student_dashboard" class="btn btn-outline-light rounded-pill px-5 py-3 fw-bold">
+                                <i class="fas fa-th-large me-2"></i> DASHBOARD
+                             </a>
+                          <!--  <button class="btn btn-cyan rounded-pill px-5 py-3 fw-bold">
+                               <i class="fas fa-file-export me-2"></i> ANALYTICS REPORT
+                            </button> -->
+                        </div>
+                    </div>
+
+                </div> </div>
+        </div>
+    </div>
+
+    {% include 'footer.html' %}
+
+</body>
+</html>

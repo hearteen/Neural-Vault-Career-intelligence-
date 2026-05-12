@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Intelligence | Neural Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <style>
+        :root { --neon-cyan: #00f2ff; --obsidian-dark: #0a0f1c; }
+        body { background-color: var(--obsidian-dark); font-family: 'Inter', sans-serif; }
+
+        .neural-text {
+            color: var(--neon-cyan) !important;
+            text-shadow: 0 0 15px rgba(0, 242, 255, 0.7);
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .glass-card-premium {
+            background: rgba(15, 23, 42, 0.9) !important;
+            border: 1px solid rgba(0, 242, 255, 0.2);
+            border-radius: 24px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card-premium:hover {
+            border-color: var(--neon-cyan);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 242, 255, 0.15);
+        }
+
+        .card-label {
+            color: #94a3b8 !important;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+        }
+
+        .marks-box {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+        
+        .marks-box:hover { background: rgba(0, 242, 255, 0.08); border-color: var(--neon-cyan); }
+        .subject-score { font-size: 1.8rem; font-weight: 800; color: #fff; }
+
+        .glow-icon { color: var(--neon-cyan); filter: drop-shadow(0 0 8px rgba(0, 242, 255, 0.8)); }
+        
+        /* New Reasoning Style to match your theme */
+        .insight-reason {
+            background: rgba(0, 242, 255, 0.05);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 0 12px 12px 0;
+            font-size: 0.85rem;
+            color: #cbd5e1;
+        }
+    </style>
+</head>
+
+<body class="text-white">
+
+    {% include 'header.html' %}
+
+    <div class="dashboard-wrapper container mt-5 pt-5">
+        <div class="row mb-4 animate__animated animate__fadeIn">
+            <div class="col-12">
+                <div class="glass-card-premium p-4 d-flex align-items-center justify-content-between" style="background: linear-gradient(90deg, rgba(0, 242, 255, 0.08), transparent) !important;">
+                    <div>
+                        <h2 class="text-white fw-bold">Welcome, <span class="neural-text">{{ student.name }}</span>!</h2>
+                        <p class="text-white mb-0 opacity-75">
+                            Status: <span class="badge {% if status == 'Good Standing' %}bg-success{% else %}bg-danger animate__animated animate__flash animate__infinite{% endif %} rounded-pill px-3">{{ status }}</span>
+                        </p>
+                    </div>
+                    <div class="date-chip px-4 py-2 glass-card-premium rounded-pill text-cyan">
+                        <i class="far fa-calendar-alt me-2"></i>{{ current_date or 'Feb 05, 2026' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-4 animate__animated animate__zoomIn">
+                <div class="glass-card-premium p-4 text-center h-100">
+                    <div class="mb-2"><i class="fas fa-fingerprint fa-2x glow-icon"></i></div>
+                    <p class="card-label mb-1">Live Attendance</p>
+                    <h1 class="text-white fw-bold mb-0" style="font-size: 3.5rem;">{{ attendance_percent }}%</h1>
+                    <div class="progress mt-3" style="height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px;">
+                        <div class="progress-bar {% if attendance_percent < 75 %}bg-danger{% else %}bg-info{% endif %}" style="width: {{ attendance_percent }}%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 animate__animated animate__zoomIn" style="animation-delay: 0.1s;">
+                <div class="glass-card-premium p-4 text-center h-100" style="border: 1px solid rgba(0, 242, 255, 0.3); position: relative; overflow: hidden;">
+                    {% if status != 'Good Standing' %}
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: #ff4d4d; box-shadow: 0 0 15px #ff4d4d;"></div>
+                    {% endif %}
+                    
+                    <div class="mb-2"><i class="fas fa-brain fa-2x glow-icon"></i></div>
+                    <p class="card-label mb-1">Neural Prediction</p>
+                    <h1 class="neural-text fw-bold mb-0" style="font-size: 3.5rem;">{{ predicted_gpa }}</h1>
+                    <p class="text-info small mt-2">AI Confidence: 94.2%</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 animate__animated animate__zoomIn" style="animation-delay: 0.2s;">
+                <div class="glass-card-premium p-4 text-center h-100">
+                    <div class="mb-2"><i class="fas fa-chart-bar fa-2x text-white-50"></i></div>
+                    <p class="card-label mb-1">Current CGPA</p>
+                    <h1 class="text-white fw-bold mb-0" style="font-size: 3.5rem;">{{ student.gpa }}</h1>
+                    <p class="text-success small mt-2 fw-bold">▲ Global Academic Hub</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5 animate__animated animate__fadeInUp">
+            <div class="col-12">
+                <div class="glass-card-premium p-4">
+                    <h4 class="text-white mb-4"><i class="fas fa-microchip text-cyan me-2"></i>Recent Semester Performance</h4>
+                    <div class="row g-4">
+                        {% set latest_sem = marks_history[-1] if marks_history else None %}
+                        {% if latest_sem %}
+                            {% for i in range(1, 7) %} <div class="col-md-2 col-6">
+                                <div class="marks-box {% if latest_sem['t' ~ i] and latest_sem['t' ~ i]|float < 40 %}border-danger{% endif %}">
+                                    <small class="card-label">T{{ i }}</small>
+                                    <div class="subject-score">{{ latest_sem['t' ~ i] if latest_sem['t' ~ i] != None else '0' }}</div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-12 text-center text-muted py-4">No marks synchronized yet.</div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <div class="col-lg-8">
+                <div class="glass-card-premium p-4 h-100">
+                    <h4 class="mb-4 text-white"><i class="fas fa-chart-line text-cyan me-2"></i>Academic Trajectory</h4>
+                    <div id="gpaChart"></div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card-premium p-4 h-100 d-flex flex-column justify-content-between">
+                    <div>
+                        <h4 class="mb-4 text-white"><i class="fas fa-lightbulb text-warning me-2"></i>AI Career Insight</h4>
+                        <p class="text-white small">Path Recommended by Profile:</p>
+                        <h3 class="neural-text fw-bold mb-2">{{ career }}</h3>
+                        
+                        <div class="insight-reason animate__animated animate__fadeIn">
+                            <i class="fas fa-robot me-2 text-cyan"></i>{{ career_reason }}
+                        </div>
+
+                        <div class="roadmap-preview p-3 rounded-4 mt-4" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05);">
+                            <small class="text-white d-block mb-1">Status Check:</small>
+                            {% if arrears > 0 %}
+                            <p class="small text-warning mb-0"><i class="fas fa-exclamation-triangle me-2"></i>{{ arrears }} Arrears Detected. Clear them to unlock path.</p>
+                            {% else %}
+                            <p class="small text-white mb-0"><i class="fas fa-check-circle text-success me-2"></i>Profile Strategy Optimized</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-info rounded-pill w-100 py-2 mt-4">Full Career Roadmap</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const gpaTrend = [{% for m in marks_history %}{{ m.calculated_gpa }},{% endfor %}];
+        const semLabels = [{% for m in marks_history %}"Sem {{ m.semester }}",{% endfor %}];
+
+        var options = {
+            series: [{
+                name: 'GPA Progress',
+                data: gpaTrend.length > 0 ? gpaTrend : [0]
+            }],
+            chart: { height: 350, type: 'area', toolbar: {show: false}, background: 'transparent', foreColor: '#94a3b8' },
+            colors: ['#00f2ff'],
+            stroke: { curve: 'smooth', width: 3 },
+            fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0 } },
+            grid: { borderColor: 'rgba(255,255,255,0.05)' },
+            xaxis: { categories: semLabels.length > 0 ? semLabels : ['No Data'] }
+        };
+        
+        var chart = new ApexCharts(document.querySelector("#gpaChart"), options);
+        chart.render();
+    </script>
+
+    {% include 'footer.html' %}
+</body>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index ERP | Intelligence Dashboard</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-obsidian text-white">
+
+    {% include 'header.html' %}
+
+    <div class="dashboard-wrapper container-fluid px-4 mt-5 pt-5">
+        
+        <div class="row align-items-center mb-4 animate__animated animate__fadeInLeft">
+            <div class="col-md-8">
+                <h1 class="display-6 fw-bold">Intelligence <span class="text-cyan">Dashboard</span></h1>
+                <p class="mb-0 text-muted-custom">Welcome back, <strong>{{ username }}</strong>. Monitoring {{ student_count }} analytical nodes.</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <div class="date-chip">
+                    <i class="far fa-calendar-alt me-2 text-cyan"></i> <span id="currentDate">February 6, 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4 animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+            <div class="col-md-8">
+                <div class="glass-card-premium p-2 px-3 h-100 d-flex align-items-center">
+                    <form action="/admin/search" method="POST" class="w-100 mb-0">
+                        <div class="input-group">
+                            <span class="input-group-text bg-transparent border-0 text-cyan">
+                                <i class="fas fa-search"></i>
+                            </span>
+                            <input type="text" name="roll_no" id="studentSearch" class="form-control bg-transparent border-0 text-white shadow-none" 
+                                   placeholder="Enter Roll No (e.g. A24MCS01) and press Enter..." required>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="glass-card-premium p-2 px-3 border-danger-low h-100 d-flex align-items-center justify-content-center text-center">
+                    <div class="pulse-red me-3"></div>
+                    <h5 class="mb-0 text-white">
+                        <span class="text-danger fw-bold">{{ arrears_total if arrears_total else '0' }}</span> High-Risk Alerts
+                    </h5>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+            <div class="col-12">
+                <div class="glass-card-premium p-4 border-cyan-low">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="card-icon-box text-success me-3">
+                            <i class="fas fa-file-csv"></i>
+                        </div>
+                        <div>
+                            <h4 class="mb-0">Bulk Marks Synchronization</h4>
+                            <p class="text-muted-custom mb-0 small">Sync academic records via CSV (Pass Mark: 30).</p>
+                        </div>
+                    </div>
+
+                    <form action="/upload_marks" method="POST" enctype="multipart/form-data" class="row g-3 align-items-center">
+                        <div class="col-md-8">
+                            <input type="file" name="csv_file" class="form-control bg-obsidian text-white border-secondary" accept=".csv" required>
+                            <div class="form-text text-white custom small mt-2 d-flex justify-content-between">
+                                <span><i class="fas fa-info-circle me-1"></i> Format: roll_no, t1, t2, t3, t4, t5, t6, p1, p2</span>
+                                <a href="#" class="text-cyan text-decoration-none"><i class="fas fa-download me-1"></i>Sample CSV</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-cyan w-100 py-2 fw-bold">
+                                <i class="fas fa-sync-alt me-2"></i>Sync Records
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+<!--
+        <div class="row g-4 mb-5">
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.5s;">
+                <div class="glass-card-premium">
+                    <div class="card-icon-box text-cyan"><i class="fas fa-user-graduate"></i></div>
+                    <h4>Students</h4>
+                    <div class="stat-text text-white">{{ student_count }} Enrolled</div>
+                    <a href="/register_students" class="btn btn-cyan-outline btn-sm mt-3 w-100">Manage Profiles</a>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.6s;">
+                <a href="http://stay-smart.great-site.net" target="_blank" class="text-decoration-none">
+                    <div class="glass-card-premium h-100">
+                        <div class="card-icon-box text-info"><i class="fas fa-clock"></i></div>
+                        <h4>Attendance</h4>
+                        <div class="stat-text text-info">Live Avg: {{ avg_attendance }}%</div>
+                        <i class="fas fa-external-link-alt float-end small text-muted-custom"></i>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.7s;">
+                <div class="glass-card-premium h-100">
+                    <div class="card-icon-box text-warning"><i class="fas fa-brain"></i></div>
+                    <h4>ML Prediction</h4>
+                    <div class="stat-text">System Accuracy: 94.2%</div>
+                    <div class="progress mt-3 bg-dark" style="height: 6px; border-radius: 10px;">
+                        <div class="progress-bar bg-warning shadow-glow-warning" style="width: 94%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3 animate__animated animate__zoomIn" style="animation-delay: 0.8s;">
+                <div class="glass-card-premium h-100">
+                    <div class="card-icon-box text-success"><i class="fas fa-briefcase"></i></div>
+                    <h4>Reports</h4>
+                    <div class="stat-text">Academic Analysis</div>
+                    <button class="btn btn-cyan btn-sm mt-3 w-100">Download PDF</button>
+                </div>
+            </div>
+        </div>
+    -->
+        <div class="row mb-5 animate__animated animate__fadeInUp" style="animation-delay: 0.9s;">
+            <div class="col-12">
+                <div class="glass-card-premium p-4">
+                    <h5 class="mb-4"><i class="fas fa-history me-2 text-cyan"></i>Recent Activity Logs</h5>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-hover border-secondary">
+                            <thead>
+                                <tr class="text-muted-custom">
+                                    <th>Action</th>
+                                    <th>Performed By</th>
+                                    <th>Target Batch</th>
+                                    <th>Timestamp</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="small">
+                                <tr>
+                                    <td>Bulk Marks Sync</td>
+                                    <td>Admin</td>
+                                    <td>MCS (A-Section)</td>
+                                    <td>Just Now</td>
+                                    <td><span class="badge bg-success-subtle text-success border border-success">Success</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Profile Update</td>
+                                    <td>System</td>
+                                    <td>A24MCS01</td>
+                                    <td>10 mins ago</td>
+                                    <td><span class="badge bg-info-subtle text-info border border-info">Modified</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div> 
+
+    {% include 'footer.html' %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dynamic Date Logic
+        const d = new Date();
+        const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        document.getElementById("currentDate").innerHTML = `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+    </script>
+</body>
+</html>

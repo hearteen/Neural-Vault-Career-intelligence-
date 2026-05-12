@@ -1,0 +1,45 @@
+{% include 'header.html' %}
+
+<div class="dashboard-wrapper container mt-5 pt-5 d-flex align-items-center justify-content-center">
+    <div class="row justify-content-center w-100">
+        <div class="col-md-8 col-lg-6">
+            <div class="glass-card-premium p-5 text-center animate__animated animate__fadeInDown">
+                
+                <div class="card-icon-box mb-4">
+                    <i class="fas fa-rocket fa-4x text-cyan pulse-animation"></i>
+                </div>
+
+                <h2 class="text-white fw-bold mb-2">AI Career Path Suggestion</h2>
+                <p class="text-muted small text-uppercase letter-spacing-2">Future Intelligence Mapping</p>
+                
+                <div class="divider my-4" style="height: 1px; background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.5), transparent);"></div>
+                
+                <div class="career-result py-4 animate__animated animate__zoomIn animate__delay-1s">
+                    <h5 class="text-muted mb-3">Recommended Career Role:</h5>
+                    <div class="role-badge py-3 px-4 d-inline-block rounded-pill mb-3" style="background: rgba(6, 182, 212, 0.1); border: 1px solid var(--accent-cyan);">
+                        <h1 class="display-5 fw-bold text-cyan m-0">{{ role }}</h1>
+                    </div>
+                </div>
+
+                <div class="row g-3 text-start mt-2 animate__animated animate__fadeInUp animate__delay-2s">
+                    <div class="col-12">
+                        <div class="p-3 bg-dark-soft rounded-4 border-start border-cyan border-4">
+                            <h6 class="text-white small mb-1"><i class="fas fa-check-circle me-2"></i>Analysis Summary</h6>
+                            <p class="small text-muted mb-0">
+                                Based on your coding skills, communication scores, and academic consistency, our AI suggests you are best suited for a <strong>{{ role }}</strong> role.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 animate__animated animate__fadeInUp animate__delay-2s">
+                    <a href="/dashboard" class="btn btn-cyan-outline w-100 rounded-pill py-2">
+                        <i class="fas fa-th-large me-2"></i> Return to ERP Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'footer.html' %}
